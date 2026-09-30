@@ -6,9 +6,10 @@ is an association with named roles. A relationship's direction is a backend
 projection choice. `embedded` values are unsupported by this generator.
 
 Every admitted participant role must be required and single-valued: each
-relationship instance has exactly one participant in that role. Write
-`required: true` and leave `multivalued` absent or false; any explicit participation
-cardinality must also specify one participant. Its range must be a specific,
+relationship instance has exactly one participant in that role. For the usual
+form, write `required: true` and leave `multivalued` absent or false. Alternatively,
+explicit cardinality must resolve to exactly one participant (effective bounds
+1..1). Its range must be a specific,
 non-abstract entity class, rather than an interface or abstract class.
 
 Here is a complete binary example. Save it as `model.yaml`:
