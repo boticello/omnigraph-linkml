@@ -1,0 +1,58 @@
+id: https://example.org/omnigraph/supported-types
+name: supported_types
+# Canonical supported datatype fixture only. Compatibility aliases are
+# intentionally excluded from this schema.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  test: https://example.org/omnigraph/supported-types/
+default_prefix: test
+imports:
+  - linkml:types
+
+enums:
+  Status:
+    permissible_values:
+      active:
+      inactive:
+
+classes:
+  AuditFields:
+    mixin: true
+    annotations:
+      kind: interface
+    attributes:
+      created_at:
+        range: datetime
+        required: true
+
+  Example:
+    mixins:
+      - AuditFields
+    annotations:
+      kind: entity
+    attributes:
+      example_id:
+        range: string
+        identifier: true
+        required: true
+      active:
+        range: boolean
+      big_count:
+        range: integer
+      ratio:
+        range: float
+      confidence:
+        range: double
+      amount:
+        range: decimal
+      homepage:
+        range: uri
+      aliases:
+        range: string
+        multivalued: true
+      status:
+        range: Status
+      code:
+        range: string
+        annotations:
+          unique: true

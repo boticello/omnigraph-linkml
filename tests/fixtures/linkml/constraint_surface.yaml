@@ -1,0 +1,35 @@
+id: https://example.org/omnigraph/constraint-surface
+name: constraint_surface
+prefixes:
+  linkml: https://w3id.org/linkml/
+  test: https://example.org/omnigraph/constraint-surface/
+default_prefix: test
+imports:
+  - linkml:types
+
+classes:
+  Account:
+    annotations:
+      kind: entity
+    unique_keys:
+      account_identity:
+        unique_key_slots:
+          - tenant_id
+          - external_id
+    attributes:
+      tenant_id:
+        range: string
+        required: true
+      external_id:
+        range: string
+        required: true
+      email:
+        range: string
+        required: true
+        pattern: "^[^@]+@[^@]+$"
+      score:
+        range: integer
+        required: true
+        minimum_value: 0
+        maximum_value: 100
+

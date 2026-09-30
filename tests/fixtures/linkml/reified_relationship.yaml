@@ -1,0 +1,66 @@
+id: https://example.org/omnigraph/reified-relationship
+name: reified_relationship
+prefixes:
+  linkml: https://w3id.org/linkml/
+  test: https://example.org/omnigraph/reified-relationship/
+default_prefix: test
+imports:
+  - linkml:types
+
+classes:
+  Person:
+    annotations:
+      kind: entity
+    attributes:
+      person_id:
+        range: string
+        identifier: true
+        required: true
+      name:
+        range: string
+
+  Team:
+    annotations:
+      kind: entity
+    attributes:
+      team_id:
+        range: string
+        identifier: true
+        required: true
+      name:
+        range: string
+
+  Membership:
+    annotations:
+      kind: relationship
+      og_relationship_mode: reified
+    unique_keys:
+      membership_external_identity:
+        unique_key_slots:
+          - external_id
+          - joined_on
+    attributes:
+      membership_id:
+        range: string
+        identifier: true
+        required: true
+      external_id:
+        range: string
+        required: true
+      member:
+        range: Person
+        required: true
+        annotations:
+          role: member
+      team:
+        range: Team
+        required: true
+        annotations:
+          role: team
+      joined_on:
+        range: date
+        required: true
+      status:
+        range: string
+        annotations:
+          index: scalar

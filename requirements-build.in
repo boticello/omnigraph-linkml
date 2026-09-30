@@ -1,0 +1,4 @@
+# Keep this in sync with build-system.requires in pyproject.toml.
+hatchling==1.32.4
+# Hatchling's additional editable-build requirement (PEP 660).
+editables==0.5

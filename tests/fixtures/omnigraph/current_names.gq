@@ -1,0 +1,12 @@
+query current_names() {
+  match {
+    $a: Record
+    $a $e:link $b
+  }
+  return {
+    $a.@id as identity, $a.id as domain_id,
+    $a.from as origin, $a.to as destination,
+    $e.@id as edge_identity, $e.@src as source, $e.@dst as target,
+    $e.id as edge_id, $e.src as domain_source, $e.dst as domain_target
+  }
+}

@@ -1,0 +1,10 @@
+query find_obligation($id: String) {
+  match {
+    $o: InsuranceObligation { obligation_id: $id }
+    $o insuranceObligationEmployer $org
+    $o insuranceObligationEmployee $person
+    $o insuranceObligationPolicy $policy
+  }
+  return { $o.obligation_id, $org.org_id, $person.person_id, $policy.policy_id }
+  limit 10
+}

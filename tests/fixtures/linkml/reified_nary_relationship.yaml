@@ -1,0 +1,68 @@
+id: https://example.org/omnigraph/reified-nary-relationship
+name: reified_nary_relationship
+prefixes:
+  linkml: https://w3id.org/linkml/
+  test: https://example.org/omnigraph/reified-nary-relationship/
+default_prefix: test
+imports:
+  - linkml:types
+
+classes:
+  Person:
+    annotations:
+      kind: entity
+    attributes:
+      person_id:
+        range: string
+        identifier: true
+        required: true
+
+  Organisation:
+    annotations:
+      kind: entity
+    attributes:
+      org_id:
+        range: string
+        identifier: true
+        required: true
+
+  Policy:
+    annotations:
+      kind: entity
+    attributes:
+      policy_id:
+        range: string
+        identifier: true
+        required: true
+
+  InsuranceObligation:
+    annotations:
+      kind: relationship
+      og_relationship_mode: reified
+    attributes:
+      obligation_id:
+        range: string
+        identifier: true
+        required: true
+      employer:
+        range: Organisation
+        required: true
+        annotations:
+          role: employer
+      employee:
+        range: Person
+        required: true
+        annotations:
+          role: employee
+      policy:
+        range: Policy
+        required: true
+        annotations:
+          role: policy
+      since:
+        range: date
+        required: true
+      status:
+        range: string
+        annotations:
+          index: scalar

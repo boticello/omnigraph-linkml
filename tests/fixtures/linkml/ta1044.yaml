@@ -1,0 +1,201 @@
+id: https://example.org/omnigraph/pilots/ta1044
+name: ta1044
+prefixes:
+  linkml: https://w3id.org/linkml/
+  pilot: https://example.org/omnigraph/pilots/ta1044/
+default_prefix: pilot
+imports:
+  - linkml:types
+
+classes:
+  Locatable:
+    mixin: true
+    annotations:
+      kind: interface
+    attributes:
+      label:
+        range: string
+        required: true
+      url:
+        range: string
+        required: true
+
+  Recommendation:
+    is_a: Locatable
+    annotations:
+      kind: entity
+    attributes:
+      recommendation_id:
+        range: string
+        identifier: true
+        required: true
+        pattern: '^TA1044-R[0-9]+$'
+      scope:
+        range: string
+        required: true
+
+  Passage:
+    is_a: Locatable
+    annotations:
+      kind: entity
+    attributes:
+      passage_id:
+        range: string
+        identifier: true
+        required: true
+      locator:
+        range: string
+        required: true
+      summary:
+        range: string
+        required: true
+      pdf_page:
+        range: integer
+        minimum_value: 1
+        maximum_value: 1000
+
+  Analysis:
+    is_a: Locatable
+    annotations:
+      kind: entity
+    attributes:
+      analysis_id:
+        range: string
+        identifier: true
+        required: true
+      author:
+        range: string
+        required: true
+      context:
+        range: string
+        required: true
+
+  SourceDocument:
+    is_a: Locatable
+    annotations:
+      kind: entity
+    attributes:
+      document_id:
+        range: string
+        identifier: true
+        required: true
+      citation_key:
+        range: string
+        required: true
+        annotations:
+          unique: true
+      document_kind:
+        range: string
+        required: true
+      identification:
+        range: string
+        required: true
+
+  RecommendationDiscussion:
+    annotations:
+      kind: relationship
+      og_from_role: recommendation
+      og_to_role: discussion
+    unique_keys:
+      one_link:
+        unique_key_slots: [recommendation, discussion]
+    attributes:
+      recommendation:
+        range: Recommendation
+        required: true
+        annotations:
+          role: recommendation
+      discussion:
+        range: Passage
+        required: true
+        annotations:
+          role: discussion
+      basis:
+        range: string
+        required: true
+
+  DiscussionReference:
+    annotations:
+      kind: relationship
+      og_from_role: referring_passage
+      og_to_role: referenced_passage
+    unique_keys:
+      one_reference:
+        unique_key_slots: [referring_passage, referenced_passage]
+    attributes:
+      referring_passage:
+        range: Passage
+        required: true
+        annotations:
+          role: referring_passage
+      referenced_passage:
+        range: Passage
+        required: true
+        annotations:
+          role: referenced_passage
+      basis:
+        range: string
+        required: true
+
+  DiscussionAnalysis:
+    annotations:
+      kind: relationship
+      og_from_role: discussion
+      og_to_role: analysis
+    unique_keys:
+      distinct_judgement:
+        unique_key_slots: [discussion, analysis, stance]
+    attributes:
+      discussion:
+        range: Passage
+        required: true
+        annotations:
+          role: discussion
+      analysis:
+        range: Analysis
+        required: true
+        annotations:
+          role: analysis
+      stance:
+        range: string
+        required: true
+      attributed_to:
+        range: string
+        required: true
+      summary:
+        range: string
+        required: true
+
+  EvidenceUse:
+    annotations:
+      kind: relationship
+      og_relationship_mode: reified
+    attributes:
+      evidence_use_id:
+        range: string
+        identifier: true
+        required: true
+      analysis:
+        range: Analysis
+        required: true
+        annotations:
+          role: analysis
+      source:
+        range: SourceDocument
+        required: true
+        annotations:
+          role: source
+      documenting_passage:
+        range: Passage
+        required: true
+        annotations:
+          role: passage
+      purpose:
+        range: string
+        required: true
+      basis:
+        range: string
+        required: true
+      summary:
+        range: string
+        required: true

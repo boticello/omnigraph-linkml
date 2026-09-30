@@ -1,0 +1,48 @@
+id: https://example.org/omnigraph/current_names
+name: current_names
+prefixes:
+  linkml: https://w3id.org/linkml/
+imports: [linkml:types]
+classes:
+  Identified:
+    mixin: true
+    annotations: {kind: interface}
+    attributes:
+      id: {range: string, required: true}
+  Record:
+    is_a: Identified
+    annotations: {kind: entity}
+    attributes:
+      slug: {range: string, identifier: true, required: true}
+      src: {range: string}
+      dst: {range: string}
+      from: {range: string}
+      to: {range: string}
+  Link:
+    annotations: {kind: relationship}
+    attributes:
+      from:
+        range: Record
+        required: true
+        annotations: {role: from}
+      to:
+        range: Record
+        required: true
+        annotations: {role: to}
+      id: {range: string}
+      src: {range: string}
+      dst: {range: string}
+  Association:
+    annotations: {kind: relationship, og_relationship_mode: reified}
+    attributes:
+      id: {range: string, identifier: true, required: true}
+      from:
+        range: Record
+        required: true
+        annotations: {role: from}
+      to:
+        range: Record
+        required: true
+        annotations: {role: to}
+      src: {range: string}
+      dst: {range: string}

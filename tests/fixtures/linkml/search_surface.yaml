@@ -1,0 +1,29 @@
+id: https://example.org/omnigraph/search-surface
+name: search_surface
+prefixes:
+  linkml: https://w3id.org/linkml/
+  test: https://example.org/omnigraph/search-surface/
+default_prefix: test
+imports:
+  - linkml:types
+
+classes:
+  Document:
+    annotations:
+      kind: entity
+    attributes:
+      document_id:
+        range: string
+        identifier: true
+        required: true
+      title:
+        range: string
+        required: true
+      body:
+        range: string
+        required: true
+        annotations:
+          index: fulltext
+      category:
+        range: string
+

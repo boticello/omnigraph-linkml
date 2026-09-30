@@ -1,0 +1,8 @@
+query assignments() {
+  match { $p: Person $p $e:employment $o }
+  return { $e.@id as identity, $e.@src as source, $e.@dst as target, $e.code, $e.note }
+}
+query memberships() {
+  match { $o: Organisation $o $e:membership $p }
+  return { $e.@id as identity, $e.@src as source, $e.@dst as target, $e.code, $e.note }
+}

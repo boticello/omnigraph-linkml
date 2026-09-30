@@ -1,0 +1,7 @@
+query find_account($tenant: String, $external: String) {
+  match {
+    $a: Account { tenant_id: $tenant, external_id: $external }
+  }
+  return { $a.tenant_id, $a.external_id, $a.email, $a.score }
+  limit 10
+}

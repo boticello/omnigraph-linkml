@@ -1,0 +1,9 @@
+query find_person($id: String) {
+  match {
+    $p: Person { person_id: $id }
+    $p employment $o
+  }
+  return { $p.person_id, $o.org_id }
+  limit 10
+}
+

@@ -1,0 +1,9 @@
+query find_membership($id: String) {
+  match {
+    $m: Membership { membership_id: $id }
+    $m membershipMember $p
+    $m membershipTeam $t
+  }
+  return { $m.membership_id, $p.person_id, $t.team_id }
+  limit 10
+}

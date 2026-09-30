@@ -1,0 +1,18 @@
+interface AuditFields {
+  created_at: DateTime
+}
+
+node Example implements AuditFields {
+  example_id: String
+  active: Bool?
+  big_count: I64?
+  ratio: F64?
+  confidence: F64?
+  amount: F64?
+  homepage: String?
+  aliases: [String]?
+  status: enum(active, inactive)?
+  code: String?
+  @key(example_id)
+  @unique(code)
+}

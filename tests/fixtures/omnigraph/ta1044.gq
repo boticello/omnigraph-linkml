@@ -1,0 +1,39 @@
+query mortality_sources() {
+  match {
+    $r: Recommendation { recommendation_id: "TA1044-R1" }
+    $r $rd:recommendationDiscussion $conclusion
+    $conclusion discussionReference $assumptions
+    $assumptions discussionReference $discussion
+    $discussion $j:discussionAnalysis $analysis
+    $use: EvidenceUse
+    $use evidenceUseAnalysis $analysis
+    $use evidenceUseSource $source
+    $use evidenceUsePassage $passage
+  }
+  return {
+    $r.recommendation_id as recommendation,
+    $r.url as recommendation_url,
+    $rd.basis as recommendation_link_basis,
+    $conclusion.locator as conclusion,
+    $conclusion.url as conclusion_url,
+    $assumptions.locator as assumptions,
+    $assumptions.url as assumptions_url,
+    $discussion.locator as discussion,
+    $discussion.url as discussion_url,
+    $analysis.analysis_id as analysis,
+    $analysis.url as analysis_url,
+    $analysis.context as context,
+    $j.stance as stance,
+    $j.attributed_to as attributed_to,
+    $j.summary as judgement,
+    $source.document_id as source,
+    $source.url as source_url,
+    $source.identification as identification,
+    $use.evidence_use_id as evidence_use,
+    $use.purpose as purpose,
+    $use.basis as basis,
+    $passage.locator as evidence_locator,
+    $passage.url as evidence_url
+  }
+  order { $analysis.analysis_id, $j.stance, $source.document_id }
+}

@@ -1,0 +1,107 @@
+id: https://example.org/omnigraph/query-surface
+name: query_surface
+prefixes:
+  linkml: https://w3id.org/linkml/
+  test: https://example.org/omnigraph/query-surface/
+default_prefix: test
+imports:
+  - linkml:types
+
+classes:
+  NamedThing:
+    mixin: true
+    annotations:
+      kind: interface
+    attributes:
+      name:
+        range: string
+        required: true
+
+  Person:
+    is_a: NamedThing
+    annotations:
+      kind: entity
+    attributes:
+      person_id:
+        range: string
+        identifier: true
+        required: true
+
+  Team:
+    is_a: NamedThing
+    annotations:
+      kind: entity
+    attributes:
+      team_id:
+        range: string
+        identifier: true
+        required: true
+
+  Project:
+    is_a: NamedThing
+    annotations:
+      kind: entity
+    attributes:
+      project_id:
+        range: string
+        identifier: true
+        required: true
+
+  Chunk:
+    annotations:
+      kind: entity
+    attributes:
+      chunk_id:
+        range: string
+        identifier: true
+        required: true
+      text:
+        range: string
+      embedding:
+        range: float
+        multivalued: true
+        annotations:
+          vector_dimensions: 3
+          index: vector
+          og_embed_source: text
+
+  Membership:
+    annotations:
+      kind: relationship
+      og_from_role: member
+      og_to_role: team
+    attributes:
+      member:
+        range: Person
+        required: true
+        annotations:
+          role: member
+      team:
+        range: Team
+        required: true
+        annotations:
+          role: team
+      joined_on:
+        range: date
+        required: true
+
+  Assignment:
+    annotations:
+      kind: relationship
+      og_from_role: assignee
+      og_to_role: project
+    attributes:
+      assignee:
+        range: Person
+        required: true
+        annotations:
+          role: assignee
+      project:
+        range: Project
+        required: true
+        annotations:
+          role: project
+      role_label:
+        range: string
+      assigned_on:
+        range: datetime

@@ -1,0 +1,29 @@
+node Chunk {
+  chunk_id: String
+  text: String?
+  embedding: Vector(1536)? @embed("text")
+  @key(chunk_id)
+  @index(embedding)
+}
+
+edge Employment: Person -> Organisation {
+  title: String?
+  since: Date?
+}
+
+interface NamedThing {
+  name: String
+}
+
+node Organisation implements NamedThing {
+  org_id: String
+  sector: String?
+  @key(org_id)
+}
+
+node Person implements NamedThing {
+  person_id: String
+  email: String?
+  @key(person_id)
+  @index(email)
+}

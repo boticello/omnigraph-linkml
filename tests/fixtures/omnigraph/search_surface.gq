@@ -1,0 +1,18 @@
+query search_documents($q: String) {
+  match {
+    $d: Document
+    search($d.body, $q)
+  }
+  return { $d.document_id, $d.title, bm25($d.body, $q) as score }
+  order { bm25($d.body, $q) desc }
+  limit 10
+}
+
+query fuzzy_documents($q: String) {
+  match {
+    $d: Document
+    fuzzy($d.title, $q)
+  }
+  return { $d.document_id, $d.title }
+  limit 10
+}

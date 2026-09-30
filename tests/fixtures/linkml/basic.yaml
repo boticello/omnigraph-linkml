@@ -1,0 +1,86 @@
+id: https://example.org/omnigraph/basic
+name: basic
+prefixes:
+  linkml: https://w3id.org/linkml/
+  basic: https://example.org/omnigraph/basic/
+default_prefix: basic
+imports:
+  - linkml:types
+
+classes:
+  NamedThing:
+    mixin: true
+    annotations:
+      kind: interface
+    attributes:
+      name:
+        range: string
+        required: true
+
+  Person:
+    is_a: NamedThing
+    annotations:
+      kind: entity
+    attributes:
+      person_id:
+        range: string
+        identifier: true
+        required: true
+      email:
+        range: string
+        annotations:
+          index: scalar
+
+  Organisation:
+    is_a: NamedThing
+    annotations:
+      kind: entity
+    attributes:
+      org_id:
+        range: string
+        identifier: true
+        required: true
+      sector:
+        range: string
+
+  Employment:
+    annotations:
+      kind: relationship
+      og_from_role: employee
+      og_to_role: employer
+    attributes:
+      employee:
+        range: Person
+        required: true
+        annotations:
+          role: employee
+      employer:
+        range: Organisation
+        required: true
+        annotations:
+          role: employer
+      title:
+        range: string
+      since:
+        range: date
+
+  Chunk:
+    annotations:
+      kind: entity
+    attributes:
+      chunk_id:
+        range: string
+        identifier: true
+        required: true
+      text:
+        range: string
+        annotations:
+          index: fulltext
+      embedding:
+        range: float
+        multivalued: true
+        annotations:
+          vector_dimensions: 1536
+          index: vector
+          og_embed_source: text
+

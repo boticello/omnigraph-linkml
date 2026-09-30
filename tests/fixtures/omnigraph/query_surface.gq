@@ -1,0 +1,35 @@
+query find_person($id: String) {
+  match {
+    $p: Person { person_id: $id }
+  }
+  return { $p.person_id, $p.name }
+  limit 10
+}
+
+query find_team_members($id: String) {
+  match {
+    $t: Team { team_id: $id }
+    $p membership $t
+  }
+  return { $p.person_id, $t.team_id }
+  limit 10
+}
+
+query find_project_assignments($id: String) {
+  match {
+    $pr: Project { project_id: $id }
+    $p assignment $pr
+  }
+  return { $p.person_id, $pr.project_id }
+  limit 10
+}
+
+query nearest_chunks($query: Vector(3)) {
+  match {
+    $c: Chunk
+  }
+  return { $c.chunk_id }
+  order { nearest($c.embedding, $query) }
+  limit 5
+}
+

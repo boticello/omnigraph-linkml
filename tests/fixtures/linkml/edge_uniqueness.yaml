@@ -1,0 +1,47 @@
+id: https://example.org/edge-uniqueness
+name: edge_uniqueness
+prefixes:
+  linkml: https://w3id.org/linkml/
+imports: [linkml:types]
+classes:
+  Person:
+    annotations: {kind: entity}
+    attributes:
+      slug: {range: string, required: true, identifier: true}
+  Organisation:
+    annotations: {kind: entity}
+    attributes:
+      slug: {range: string, required: true, identifier: true}
+  Employment:
+    annotations: {kind: relationship, og_from_role: employee, og_to_role: employer}
+    unique_keys:
+      assignment:
+        unique_key_slots: [person, organisation, code]
+    attributes:
+      person:
+        range: Person
+        required: true
+        annotations: {role: employee}
+      organisation:
+        range: Organisation
+        required: true
+        annotations: {role: employer}
+      code: {range: string, required: true}
+      note: {range: string, required: true}
+  Membership:
+    # Slot names differ from conventional role labels; source is Organisation.
+    annotations: {kind: relationship}
+    unique_keys:
+      pair:
+        unique_key_slots: [person, organisation]
+    attributes:
+      person:
+        range: Person
+        required: true
+        annotations: {role: target}
+      organisation:
+        range: Organisation
+        required: true
+        annotations: {role: source}
+      code: {range: string, required: true}
+      note: {range: string, required: true}

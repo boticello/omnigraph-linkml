@@ -1,0 +1,77 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "omnigraph-linkml-generator"
+version = "0.1.0"
+description = "LinkML generator for Omnigraph .pg schemas"
+readme = "README.package.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dependencies = [
+  "linkml>=1.8",
+  "linkml-runtime>=1.8",
+  "click>=8.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+dev = [
+  "build>=1.5",
+  "mypy>=2.1",
+  "ruff>=0.15",
+  "twine>=7.0",
+]
+
+[project.scripts]
+gen-omnigraph = "linkml_omnigraph.cli:main"
+
+[project.urls]
+Repository = "https://github.com/boticello/omnigraph-linkml"
+Issues = "https://github.com/boticello/omnigraph-linkml/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/linkml_omnigraph"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src/linkml_omnigraph/*.py",
+  "/tests/*.py",
+  "/tests/fixtures/linkml/*.yaml",
+  "/tests/fixtures/omnigraph/*.pg",
+  "/tests/fixtures/omnigraph/*.gq",
+  "/scripts/generate_artifacts.py",
+  "/scripts/check_distribution_contents.py",
+  "/scripts/check_documentation.py",
+  "/pyproject.toml",
+  "/README.package.md",
+  "/README.md",
+  "/LICENSE",
+  "/CONTRIBUTING.md",
+  "/CHANGELOG.md",
+  "/docs/authoring.md",
+  "/docs/mapping.md",
+  "/docs/validation.md",
+  "/docs/compatibility.md",
+  "/docs/example-ta1044.md",
+  "/requirements-dev.txt",
+  "/requirements-build.in",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["F", "I"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src"]
+ignore_missing_imports = true
+warn_unused_configs = true

@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.14"]
+
+    env:
+      # Pin the Omnigraph CLI so CI exercises the integration tests against a
+      # fixed, validated backend version rather than silently skipping them.
+      # Bump deliberately after local re-validation. See
+      # docs/compatibility.md and CONTRIBUTING.md.
+      OMNIGRAPH_VERSION: "0.11.0"
+      OMNIGRAPH_REQUIRE_INTEGRATION: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install project and dev dependencies
+        run: |
+          python -m pip install -r requirements-dev.txt
+          python -m pip install --no-build-isolation -c requirements-dev.txt -e '.[test,dev]'
+
+      - name: Regenerate fixture artefacts
+        run: python scripts/generate_artifacts.py
+
+      - name: Set up omnigraph
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/ModernRelay/omnigraph/v$OMNIGRAPH_VERSION/scripts/install.sh" | VERSION="v$OMNIGRAPH_VERSION" bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Verify omnigraph
+        run: test "$(omnigraph --version)" = "omnigraph $OMNIGRAPH_VERSION"
+
+      - name: Check documentation examples and links
+        run: python scripts/check_documentation.py
+
+      - name: Lint
+        run: ruff check src tests scripts
+
+      - name: Type check
+        run: mypy src
+
+      - name: Test
+        run: pytest -rA
+
+      - name: Build distribution artefacts
+        run: python -m build
+
+      - name: Check distribution metadata
+        run: twine check dist/*
+
+      - name: Check distribution contents
+        run: python scripts/check_distribution_contents.py dist/*
+
+      - name: Smoke built wheel outside the checkout
+        run: |
+          python -m venv "$RUNNER_TEMP/wheel-smoke"
+          "$RUNNER_TEMP/wheel-smoke/bin/python" -m pip install -c requirements-dev.txt dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/wheel-smoke/bin/gen-omnigraph" "$GITHUB_WORKSPACE/tests/fixtures/linkml/basic.yaml" -o wheel-basic.pg
+          cmp wheel-basic.pg "$GITHUB_WORKSPACE/generated/basic.pg"
