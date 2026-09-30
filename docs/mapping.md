@@ -10,8 +10,8 @@ unsupported constructs are rejected rather than silently lowered.
 | --- | --- |
 | `kind: entity` | A node, with scalar properties. |
 | `kind: interface` | An interface, applied through `is_a` and `mixins`. |
-| `kind: relationship`, absent mode or `native_edge` | A directed binary edge with exactly two concrete non-abstract entity roles. Each is singular and exact-one. |
-| `kind: relationship`, `og_relationship_mode: reified` | A node with one required scalar identifier and an outgoing incident edge for each of two or more roles. Participants have the same concrete/singular/exact-one restriction. |
+| `kind: relationship`, absent mode or `native_edge` | A directed binary edge with exactly two named roles. Each requires one participant of a specific, non-abstract entity class. |
+| `kind: relationship`, `og_relationship_mode: reified` | A node with one required scalar identifier and an outgoing incident edge for each of two or more roles. Every role is required and single-valued, with a non-abstract entity type as its participant. |
 | Missing `kind`, `kind: embedded` | Refused. |
 
 Slot `role` annotations identify participants. Native direction comes from both

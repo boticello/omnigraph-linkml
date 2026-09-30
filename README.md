@@ -37,7 +37,7 @@ a complete model and [mapping reference](docs/mapping.md) for supported rules.
 
 | Projection | Use and limits |
 | --- | --- |
-| Native edge (default) | Two concrete, singular, exact-one participant roles. Explicit direction or a recognised role pair. No relationship identifier; bounded endpoint-tuple uniqueness is supported. |
+| Native edge (default) | Two named roles, each required and single-valued, with non-abstract entity types as participants. Explicit direction or a recognised role pair. No relationship identifier. A uniqueness constraint may use both endpoints and optionally one required String property. |
 | Reified relationship | Set `og_relationship_mode: reified`. Two or more such roles and one required scalar identifier. Produces a relationship node and one outgoing edge per role. |
 
 Reification is never automatic. Embedded values, implicit edges from entity slots,

@@ -1,8 +1,9 @@
 # Example: trace a mortality evidence branch
 
-This example models a bounded source trail from NICE TA1044 recommendation 1.1
-through published committee discussion to mortality analyses and their source
-documents. It uses manually curated identifiers, short original paraphrases and
+This example models a bounded source trail from recommendation 1.1 in technology
+appraisal TA1044, published by the National Institute for Health and Care
+Excellence (NICE). The trail follows published committee discussion to mortality
+analyses and their source documents. It uses manually curated identifiers, short original paraphrases and
 source locations from public documents. It contains no patient records or full
 source PDFs. It is an engineering example, not clinical advice, an appraisal of
 article findings or the complete justification for the recommendation.
@@ -36,10 +37,11 @@ identity and three roles: analysis, source document and documenting passage.
 Explicit reification preserves different uses of the same paper.
 
 The run loads 16 nodes and 19 edges. Expected results are six source-trail rows,
-four attributed judgements and four distinct evidence uses. Company and EAG
-positions remain distinct, including criticism of both mortality alternatives,
-the committee's retained validation uncertainty and the unresolved ICER report
-edition. A joined judgement about an analysis is not an independent appraisal
+four attributed judgements and four distinct evidence uses. Company and External
+Assessment Group (EAG) positions remain distinct, including criticism of both
+mortality alternatives, the committee's retained validation uncertainty and the
+unresolved Institute for Clinical and Economic Review (ICER) report edition.
+A joined judgement about an analysis is not an independent appraisal
 of every source used by it.
 
 The recommendation-to-conclusion correspondence is labelled as curated. The

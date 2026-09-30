@@ -13,7 +13,8 @@ gen-omnigraph model.yaml -o model.pg
 Annotate classes with `kind: entity`, `kind: relationship` or `kind: interface`.
 Relationship endpoint slots use the shared `role` annotation; backend direction
 can be specified with `og_from_role` and `og_to_role`. Native edges require exactly
-two concrete, singular, exact-one roles. Set `og_relationship_mode: reified` to
+two named roles, each required and single-valued, with non-abstract entity types
+as participants. Set `og_relationship_mode: reified` to
 project a binary or n-ary relationship into a node with outgoing role edges.
 Reification is explicit and is never selected automatically.
 
@@ -44,7 +45,7 @@ with open("records.jsonl", encoding="utf-8") as source:
 The method returns `None` on success and raises `OmnigraphDataValidationError`
 for invalid role sets or unsupported batch/key forms. Schema admission errors
 remain `OmnigraphGeneratorError`. Each reified node must have exactly one outgoing
-edge for every declared role, pointing to the declared concrete participant type
+edge for every declared role, pointing to the declared non-abstract entity type
 present in the same batch. Generated role-edge names and keys come from the schema.
 Record order does not matter; duplicate relevant node keys, orphan role edges,
 unknown record types and unsupported references are refused.

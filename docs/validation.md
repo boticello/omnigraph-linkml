@@ -22,7 +22,7 @@ loads records or changes a store.
 Nodes use `{"type": "Person", "data": {"person_id": "p1"}}`. Edges use
 `{"edge": "MembershipMember", "from": "m1", "to": "p1"}`. Each reified node
 must have exactly one outgoing edge for every declared role, to a node of the
-declared concrete participant type present in the same batch. Record order does
+declared non-abstract entity type present in the same batch. Record order does
 not matter. Duplicate relevant keys, missing/multiple/wrong-type participants,
 orphan role edges, unknown types and unsupported references are refused.
 
