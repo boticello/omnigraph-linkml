@@ -1,18 +1,14 @@
 # Omnigraph LinkML
 
-Generate Omnigraph `.pg` schemas from LinkML domain models. Model independently
-identified entities, reusable interfaces and relationships with named participant
-roles, then choose a graph projection explicitly.
+Generates Omnigraph `.pg` schemas from LinkML domain models. Model entities and relationships with named roles.
 
 The Python distribution is `omnigraph-linkml-generator`, the import package is
 `linkml_omnigraph`, and the command is `gen-omnigraph`. This repository contains
-the maintained implementation, tests and user documentation. Python 3.11 and 3.14
-are tested; the qualified graph backend is **Omnigraph 0.11.0 on fresh format-v9
-graphs**.
+the maintained implementation, tests and user documentation.
 
 ## Install and generate a schema
 
-Install from this checkout; no package-index release is claimed:
+Install from this checkout:
 
 ```bash
 git clone https://github.com/boticello/omnigraph-linkml.git
@@ -47,7 +43,7 @@ reified participant edges before ingestion; it is not a general data validator.
 
 ## Run the evidence-tracing example
 
-The [TA1044 example](docs/example-ta1044.md) generates a schema, loads manually
+The [example](docs/example-ta1044.md) generates a schema, loads manually
 curated public-source records into fresh graphs and executes recommendation-to-source
 queries. It preserves competing judgements and uncertainty. This is a bounded
 modelling example, not a clinical assessment or a complete explanation of the
